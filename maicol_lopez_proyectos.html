@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyectos · Maicol López</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a08;
+  --surface: #111110;
+  --border: #222220;
+  --accent: #e8ff47;
+  --accent2: #ff6b35;
+  --accent3: #c084fc;
+  --text: #f0ede6;
+  --muted: #6a6a64;
+  --card1: #141410;
+  --card2: #100f14;
+  --card3: #100f0a;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 48px;
+  mix-blend-mode: normal;
+}
+
+nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,10,8,0.95), transparent);
+  pointer-events: none;
+}
+
+.nav-logo {
+  position: relative;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-back {
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 1px;
+  font-family: 'Instrument Sans', monospace;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-back:hover { color: var(--accent); }
+
+.nav-count {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+
+/* HEADER */
+.header {
+  padding: 160px 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-bg-text {
+  position: absolute;
+  bottom: -20px;
+  left: -10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(120px, 18vw, 240px);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(232,255,71,0.06);
+  letter-spacing: -5px;
+  pointer-events: none;
+  line-height: 1;
+  user-select: none;
+}
+
+.header-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.1s forwards;
+}
+
+.header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(64px, 10vw, 130px);
+  letter-spacing: -1px;
+  line-height: 0.9;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.25s forwards;
+}
+
+.header h1 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--accent);
+  font-size: 0.75em;
+}
+
+.header-sub {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.4s forwards;
+}
+
+/* FILTERS */
+.filters {
+  padding: 0 48px 56px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.55s forwards;
+}
+
+.filter-btn {
+  font-size: 11.5px;
+  letter-spacing: 1px;
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 100px;
+  transition: all 0.2s;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+/* GRID */
+.grid-wrap {
+  padding: 0 48px 120px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+/* CARD BASE */
+.project-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+}
+
+/* CARD SIZES */
+.card-lg { grid-column: span 7; }
+.card-md { grid-column: span 5; }
+.card-sm { grid-column: span 12; }
+
+/* CARD IMAGES */
+.card-img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-sm .card-img {
+  aspect-ratio: 21/8;
+}
+
+/* Placeholder with project-specific aesthetic */
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+
+.project-card:hover .img-placeholder {
+  transform: scale(1.04);
+}
+
+/* Project 1 - Peluqueria */
+.img-1 {
+  background: linear-gradient(135deg, #1a0a1a 0%, #2d1a3a 50%, #1a0a1a 100%);
+}
+
+.img-1::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 30% 40%, rgba(192,132,252,0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 70% 70%, rgba(255,107,53,0.15) 0%, transparent 60%);
+}
+
+.img-placeholder-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 5vw, 72px);
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.08);
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  line-height: 1;
+  user-select: none;
+}
+
+.img-icon {
+  font-size: clamp(48px, 7vw, 96px);
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 40px rgba(192,132,252,0.4));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.project-card:hover .img-icon {
+  transform: scale(1.1) rotate(-5deg);
+  filter: drop-shadow(0 0 60px rgba(192,132,252,0.6));
+}
+
+/* Project 2 - Portafolio personal */
+.img-2 {
+  background: linear-gradient(135deg, #08100a 0%, #0f1e12 50%, #081008 100%);
+}
+
+.img-2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 70% at 60% 30%, rgba(232,255,71,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 20% 80%, rgba(0,200,100,0.1) 0%, transparent 50%);
+}
+
+.img-2 .img-icon {
+  filter: drop-shadow(0 0 40px rgba(232,255,71,0.4));
+}
+
+.project-card:hover .img-2 .img-icon {
+  filter: drop-shadow(0 0 60px rgba(232,255,71,0.6));
+}
+
+/* Project 3 - App belleza */
+.img-3 {
+  background: linear-gradient(135deg, #0a0810 0%, #180f24 50%, #0a0810 100%);
+}
+
+.img-3::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 40% 50%, rgba(255,107,53,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 30%, rgba(192,132,252,0.15) 0%, transparent 50%);
+}
+
+.img-3 .img-icon {
+  filter: drop-shadow(0 0 40px rgba(255,107,53,0.4));
+}
+
+.project-card:hover .img-3 .img-icon {
+  filter: drop-shadow(0 0 60px rgba(255,107,53,0.6));
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Grid lines decoration on placeholder */
+.img-grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* REAL IMAGE support */
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+
+.project-card:hover .card-img img {
+  transform: scale(1.04);
+}
+
+/* CARD BODY */
+.card-body {
+  padding: 24px 28px 28px;
+  background: var(--surface);
+  position: relative;
+}
+
+.card-sm .card-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: start;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.card-category {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+.cat-web { background: rgba(192,132,252,0.12); color: var(--accent3); border: 1px solid rgba(192,132,252,0.2); }
+.cat-personal { background: rgba(232,255,71,0.1); color: var(--accent); border: 1px solid rgba(232,255,71,0.2); }
+.cat-app { background: rgba(255,107,53,0.1); color: var(--accent2); border: 1px solid rgba(255,107,53,0.2); }
+
+.card-year {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(24px, 3vw, 36px);
+  letter-spacing: 1px;
+  line-height: 1;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.project-card:hover .card-title { color: var(--accent); }
+
+.card-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+
+.card-sm .card-desc { margin-bottom: 0; }
+
+.card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.stack-tag {
+  font-size: 10.5px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 2px;
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+}
+
+.project-card:hover .stack-tag {
+  border-color: rgba(232,255,71,0.15);
+  color: var(--text);
+}
+
+/* CARD HOVER OVERLAY */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(232,255,71,0.06), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.project-card:hover .card-overlay { opacity: 1; }
+
+/* CARD ARROW */
+.card-arrow {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 14px;
+  transition: all 0.3s;
+  background: var(--surface);
+}
+
+.project-card:hover .card-arrow {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  transform: rotate(45deg);
+}
+
+/* CARD SM RIGHT */
+.card-sm-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  min-width: 160px;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,8,0.92);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(8px);
+  padding: 24px;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  max-width: 680px;
+  width: 100%;
+  position: relative;
+  transform: translateY(30px);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-overlay.open .modal {
+  transform: translateY(0);
+}
+
+.modal-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  position: relative;
+}
+
+.modal-body {
+  padding: 36px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: rgba(10,10,8,0.8);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.modal-close:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+.modal-cat { margin-bottom: 12px; }
+
+.modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px;
+  letter-spacing: 1px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.modal-desc {
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 28px;
+}
+
+.modal-stack-label {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.modal-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.modal-stack .stack-tag {
+  font-size: 12px;
+  padding: 5px 12px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-modal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 2px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.btn-modal-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn-modal-primary:hover {
+  background: #d4e840;
+  transform: translateY(-2px);
+}
+
+.btn-modal-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-modal-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* CONTACT STRIP */
+.contact-strip {
+  margin: 0 48px 80px;
+  padding: 48px;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(232,255,71,0.04), transparent 60%);
+  pointer-events: none;
+}
+
+.contact-strip-left h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: 1px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.contact-strip-left h2 span { color: var(--accent); }
+
+.contact-strip-left p {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.btn-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.btn-contact:hover {
+  background: #d4e840;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(232,255,71,0.2);
+}
+
+/* FOOTER */
+footer {
+  padding: 28px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 3px;
+}
+
+.footer-logo span { color: var(--accent); }
+
+.footer-text {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.project-card:nth-child(1) { animation-delay: 0.1s; }
+.project-card:nth-child(2) { animation-delay: 0.2s; }
+.project-card:nth-child(3) { animation-delay: 0.3s; }
+
+/* SCROLL REVEAL */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* MOBILE */
+@media (max-width: 900px) {
+  nav, .header, .filters, .grid-wrap, .contact-strip, footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .card-lg, .card-md, .card-sm { grid-column: span 12; }
+  .contact-strip { flex-direction: column; text-align: center; }
+  .card-sm .card-body { grid-template-columns: 1fr; }
+  .card-sm-right { align-items: flex-start; }
+  footer { flex-direction: column; gap: 12px; }
+  .projects-grid { gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">ML<span>.</span></a>
+  <div class="nav-right">
+    <a href="#" class="nav-back">← Volver al perfil</a>
+    <span class="nav-count">03 PROYECTOS</span>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-bg-text">WORK</div>
+  <div class="header-label">// Portafolio de proyectos</div>
+  <h1>Mis<br><em>Proyectos</em></h1>
+  <p class="header-sub">Soluciones reales construidas desde cero. Cada proyecto resuelve un problema concreto para un cliente real.</p>
+</header>
+
+<!-- FILTERS -->
+<div class="filters">
+  <button class="filter-btn active" onclick="filterCards('all', this)">Todos (3)</button>
+  <button class="filter-btn" onclick="filterCards('web', this)">Sitios Web</button>
+  <button class="filter-btn" onclick="filterCards('app', this)">Apps</button>
+  <button class="filter-btn" onclick="filterCards('personal', this)">Personal</button>
+</div>
+
+<!-- GRID -->
+<div class="grid-wrap">
+  <div class="projects-grid">
+
+    <!-- CARD 1 - Peluquería (GRANDE) -->
+    <div class="project-card card-lg" data-cat="web" onclick="openModal('peluqueria')">
+      <div class="card-overlay"></div>
+      <div class="card-img">
+        <!-- REEMPLAZA EL DIV DE ABAJO CON: <img src="tu-imagen.jpg" alt="Peluquería"> -->
+        <div class="img-placeholder img-1">
+          <div class="img-grid-lines"></div>
+          <span class="img-icon">✂️</span>
+          <span class="img-placeholder-text">BARBERSHOP</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-arrow">↗</div>
+        <div class="card-meta">
+          <span class="card-category cat-web">Sitio Web</span>
+          <span class="card-year">2024</span>
+        </div>
+        <div class="card-title">Demo Peluquería</div>
+        <p class="card-desc">Landing page para peluquería con catálogo de servicios, galería y formulario de citas. Diseño moderno orientado a conversión.</p>
+        <div class="card-stack">
+          <span class="stack-tag">HTML/CSS</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">PHP</span>
+          <span class="stack-tag">MySQL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 - Portafolio personal (MEDIANO) -->
+    <div class="project-card card-md" data-cat="personal" onclick="openModal('portafolio')">
+      <div class="card-overlay"></div>
+      <div class="card-img">
+        <!-- REEMPLAZA EL DIV DE ABAJO CON: <img src="tu-imagen.jpg" alt="Portafolio"> -->
+        <div class="img-placeholder img-2">
+          <div class="img-grid-lines"></div>
+          <span class="img-icon">🧑‍💻</span>
+          <span class="img-placeholder-text">PORTFOLIO</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-arrow">↗</div>
+        <div class="card-meta">
+          <span class="card-category cat-personal">Personal</span>
+          <span class="card-year">2025</span>
+        </div>
+        <div class="card-title">Mi Sitio Web</div>
+        <p class="card-desc">Página personal de presentación profesional. Dark mode, animaciones y diseño para destacar mi perfil y servicios.</p>
+        <div class="card-stack">
+          <span class="stack-tag">HTML/CSS</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">Animaciones</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 - App de Belleza (FULL WIDTH) -->
+    <div class="project-card card-sm" data-cat="app" onclick="openModal('belleza')">
+      <div class="card-overlay"></div>
+      <div class="card-img">
+        <!-- REEMPLAZA EL DIV DE ABAJO CON: <img src="tu-imagen.jpg" alt="App Belleza"> -->
+        <div class="img-placeholder img-3">
+          <div class="img-grid-lines"></div>
+          <span class="img-icon">💄</span>
+          <span class="img-placeholder-text">BEAUTY APP</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-arrow">↗</div>
+          <div class="card-meta">
+            <span class="card-category cat-app">App Móvil</span>
+            <span class="card-year">2025</span>
+          </div>
+          <div class="card-title">App de Belleza</div>
+          <p class="card-desc">Aplicación móvil para agendar servicios de belleza, ver disponibilidad de estilistas y gestionar citas. Incluye panel de administración para el negocio.</p>
+        </div>
+        <div class="card-sm-right">
+          <div class="card-stack">
+            <span class="stack-tag">React Native</span>
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">Flask</span>
+            <span class="stack-tag">MySQL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip reveal">
+  <div class="contact-strip-left">
+    <h2>¿Tienes un proyecto<br>en mente<span>?</span></h2>
+    <p>Cuéntame tu idea — cotización sin costo.</p>
+  </div>
+  <a href="mailto:Mslopez339@gmail.com" class="btn-contact">Hablemos →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ML<span>.</span></div>
+  <div class="footer-text">Maicol López · Bogotá · 2026</div>
+  <div class="footer-text">316 288 3610</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <div class="modal-cat" id="modalCat"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-stack-label">TECNOLOGÍAS USADAS</div>
+      <div class="modal-stack" id="modalStack"></div>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const projects = {
+  peluqueria: {
+    cat: 'Sitio Web', catClass: 'cat-web',
+    title: 'Demo Peluquería',
+    desc: 'Landing page completa para peluquería con catálogo de servicios, galería de trabajos, sección de precios y formulario de reserva de citas conectado a base de datos. Diseño responsivo orientado a conversión con paleta oscura y elegante.',
+    stack: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
+    imgClass: 'img-1', icon: '✂️', label: 'BARBERSHOP',
+    demo: '#', code: '#'
+  },
+  portafolio: {
+    cat: 'Personal', catClass: 'cat-personal',
+    title: 'Mi Sitio Web',
+    desc: 'Página personal de presentación profesional con dark mode, animaciones de entrada, cursor personalizado, secciones de servicios, experiencia, educación y contacto. Construida en HTML/CSS/JS puro sin frameworks.',
+    stack: ['HTML', 'CSS', 'JavaScript', 'Animaciones CSS'],
+    imgClass: 'img-2', icon: '🧑‍💻', label: 'PORTFOLIO',
+    demo: '#', code: '#'
+  },
+  belleza: {
+    cat: 'App Móvil', catClass: 'cat-app',
+    title: 'App de Belleza',
+    desc: 'Aplicación móvil para gestión de citas en salones de belleza. Los clientes pueden ver disponibilidad, elegir estilista y agendar servicios. Incluye panel de administración para el negocio con control de agenda, clientes y servicios.',
+    stack: ['React Native', 'Python', 'Flask', 'MySQL', 'REST API'],
+    imgClass: 'img-3', icon: '💄', label: 'BEAUTY APP',
+    demo: '#', code: '#'
+  }
+};
+
+function openModal(id) {
+  const p = projects[id];
+  const overlay = document.getElementById('modal');
+
+  document.getElementById('modalCat').innerHTML = `<span class="card-category ${p.catClass}">${p.cat}</span>`;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalDesc').textContent = p.desc;
+
+  const stack = document.getElementById('modalStack');
+  stack.innerHTML = p.stack.map(t => `<span class="stack-tag">${t}</span>`).join('');
+
+  document.getElementById('modalImg').innerHTML = `
+    <div class="img-placeholder ${p.imgClass}" style="height:100%">
+      <div class="img-grid-lines"></div>
+      <span class="img-icon" style="font-size:80px">${p.icon}</span>
+      <span class="img-placeholder-text">${p.label}</span>
+    </div>`;
+
+  // Nota: cuando tengas imágenes reales, reemplaza el innerHTML de arriba con:
+  // document.getElementById('modalImg').innerHTML = `<img src="ruta-imagen.jpg" alt="${p.title}" style="width:100%;height:100%;object-fit:cover">`;
+
+  document.getElementById('modalActions').innerHTML = `
+    <a href="${p.demo}" class="btn-modal btn-modal-primary">Ver demo →</a>
+    <a href="${p.code}" class="btn-modal btn-modal-secondary">Ver código</a>`;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// FILTERS
+function filterCards(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(card => {
+    const show = cat === 'all' || card.dataset.cat === cat;
+    card.style.opacity = show ? '1' : '0.2';
+    card.style.pointerEvents = show ? 'all' : 'none';
+    card.style.transition = 'opacity 0.3s ease';
+  });
+}
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
