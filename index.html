@@ -191,12 +191,14 @@ nav::before {
 /* GRID */
 .grid-wrap {
   padding: 0 48px 120px;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 32px;
 }
 
 /* CARD BASE */
@@ -215,9 +217,9 @@ nav::before {
 }
 
 /* CARD SIZES */
-.card-lg { grid-column: span 7; }
-.card-md { grid-column: span 5; }
-.card-sm { grid-column: span 12; }
+.card-lg, .card-md, .card-sm {
+  grid-column: span 1;
+}
 
 /* CARD IMAGES */
 .card-img {
