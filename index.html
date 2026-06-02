@@ -227,10 +227,6 @@ nav::before {
   overflow: hidden;
 }
 
-.card-sm .card-img {
-  aspect-ratio: 21/8;
-}
-
 /* Placeholder with project-specific aesthetic */
 .img-placeholder {
   width: 100%;
@@ -775,12 +771,7 @@ footer {
     <div class="project-card card-lg" data-cat="web" onclick="openModal('peluqueria')">
       <div class="card-overlay"></div>
       <div class="card-img">
-        <!-- REEMPLAZA EL DIV DE ABAJO CON: <img src="tu-imagen.jpg" alt="Peluquería"> -->
-        <img src="barber.png" alt="Barber">
-          <div class="img-grid-lines"></div>
-          <span class="img-icon">✂️</span>
-          <span class="img-placeholder-text">BARBERSHOP</span>
-        </div>
+        <img src="barber.png" alt="Peluquería">
       </div>
       <div class="card-body">
         <div class="card-arrow">↗</div>
@@ -803,12 +794,7 @@ footer {
     <div class="project-card card-md" data-cat="personal" onclick="openModal('portafolio')">
       <div class="card-overlay"></div>
       <div class="card-img">
-        <!-- REEMPLAZA EL DIV DE ABAJO CON: <img src="tu-imagen.jpg" alt="Portafolio"> -->
-        <img src="image.png" alt="Sitio personal">
-          <div class="img-grid-lines"></div>
-          <span class="img-icon">🧑‍💻</span>
-          <span class="img-placeholder-text">PORTAFOLIO</span>
-        </div>
+        <img src="image.png" alt="Mi sitio personal">
       </div>
       <div class="card-body">
         <div class="card-arrow">↗</div>
@@ -830,12 +816,7 @@ footer {
     <div class="project-card card-sm" data-cat="app" onclick="openModal('belleza')">
       <div class="card-overlay"></div>
       <div class="card-img">
-        <!-- REEMPLAZA EL DIV DE ABAJO CON: <img src="tu-imagen.jpg" alt="App Belleza"> -->
         <img src="neos.png" alt="App Belleza">
-          <div class="img-grid-lines"></div>
-          <span class="img-icon">💄</span>
-          <span class="img-placeholder-text">Neos App</span>
-        </div>
       </div>
       <div class="card-body">
         <div>
@@ -900,6 +881,7 @@ const projects = {
     title: 'Demo Peluquería',
     desc: 'Landing page completa para peluquería con catálogo de servicios, galería de trabajos, sección de precios y formulario de reserva de citas conectado a base de datos. Diseño responsivo orientado a conversión con paleta oscura y elegante.',
     stack: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
+    imgSrc: 'barber.png',
     imgClass: 'img-1', icon: '✂️', label: 'BARBERSHOP',
     demo: '#', code: '#'
   },
@@ -908,6 +890,7 @@ const projects = {
     title: 'Mi Sitio Web',
     desc: 'Página personal de presentación profesional con dark mode, animaciones de entrada, cursor personalizado, secciones de servicios, experiencia, educación y contacto. Construida en HTML/CSS/JS puro sin frameworks.',
     stack: ['HTML', 'CSS', 'JavaScript', 'Animaciones CSS'],
+    imgSrc: 'image.png',
     imgClass: 'img-2', icon: '🧑‍💻', label: 'PORTFOLIO',
     demo: '#', code: '#'
   },
@@ -916,6 +899,7 @@ const projects = {
     title: 'App de Belleza',
     desc: 'Aplicación móvil para gestión de citas en salones de belleza. Los clientes pueden ver disponibilidad, elegir estilista y agendar servicios. Incluye panel de administración para el negocio con control de agenda, clientes y servicios.',
     stack: ['React Native', 'Python', 'Flask', 'MySQL', 'REST API'],
+    imgSrc: 'neos.png',
     imgClass: 'img-3', icon: '💄', label: 'BEAUTY APP',
     demo: '#', code: '#'
   }
@@ -933,18 +917,10 @@ function openModal(id) {
   stack.innerHTML = p.stack.map(t => `<span class="stack-tag">${t}</span>`).join('');
 
   document.getElementById('modalImg').innerHTML = `
-    <div class="img-placeholder ${p.imgClass}" style="height:100%">
-      <div class="img-grid-lines"></div>
-      <span class="img-icon" style="font-size:80px">${p.icon}</span>
-      <span class="img-placeholder-text">${p.label}</span>
-    </div>`;
-
-  // Nota: cuando tengas imágenes reales, reemplaza el innerHTML de arriba con:
-  // document.getElementById('modalImg').innerHTML = `<img src="ruta-imagen.jpg" alt="${p.title}" style="width:100%;height:100%;object-fit:cover">`;
+    <img src="${p.imgSrc}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block">`;
 
   document.getElementById('modalActions').innerHTML = `
-    <a href="${p.demo}" class="btn-modal btn-modal-primary">Ver demo →</a>
-    <a href="${p.code}" class="btn-modal btn-modal-secondary">Ver código</a>`;
+    <a href="${p.demo}" class="btn-modal btn-modal-primary">Ver demo →</a>`;
 
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
