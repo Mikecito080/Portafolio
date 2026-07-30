@@ -191,14 +191,16 @@ nav::before {
 /* GRID */
 .grid-wrap {
   padding: 0 48px 120px;
-  max-width: 980px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+  grid-auto-rows: 1fr;
 }
 
 /* CARD BASE */
@@ -210,6 +212,11 @@ nav::before {
   transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
   opacity: 0;
   animation: fadeUp 0.7s ease forwards;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  height: 100%;
+  background: var(--surface);
 }
 
 .project-card:hover {
@@ -357,13 +364,24 @@ nav::before {
   padding: 24px 28px 28px;
   background: var(--surface);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  justify-content: center;
 }
 
 .card-sm .card-body {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 16px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.card-sm .card-body > div:first-child {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .card-meta {
@@ -406,16 +424,22 @@ nav::before {
 .card-desc {
   font-size: 13.5px;
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.45;
   margin-bottom: 20px;
+  max-width: 100%;
 }
 
-.card-sm .card-desc { margin-bottom: 0; }
+.card-sm .card-desc {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
 
 .card-stack {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  align-items: flex-start;
+  margin-top: auto;
 }
 
 .stack-tag {
@@ -473,11 +497,7 @@ nav::before {
 
 /* CARD SM RIGHT */
 .card-sm-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
-  min-width: 160px;
+  display: none;
 }
 
 /* MODAL */
@@ -745,7 +765,7 @@ footer {
   <a href="#" class="nav-logo">ML<span>.</span></a>
   <div class="nav-right">
     <a href="#" class="nav-back">← Volver al perfil</a>
-    <span class="nav-count">03 PROYECTOS</span>
+    <span class="nav-count">06 PROYECTOS</span>
   </div>
 </nav>
 
@@ -759,7 +779,7 @@ footer {
 
 <!-- FILTERS -->
 <div class="filters">
-  <button class="filter-btn active" onclick="filterCards('all', this)">Todos (3)</button>
+  <button class="filter-btn active" onclick="filterCards('all', this)">Todos (5)</button>
   <button class="filter-btn" onclick="filterCards('web', this)">Sitios Web</button>
   <button class="filter-btn" onclick="filterCards('app', this)">Apps</button>
   <button class="filter-btn" onclick="filterCards('personal', this)">Personal</button>
@@ -769,7 +789,6 @@ footer {
 <div class="grid-wrap">
   <div class="projects-grid">
 
-    <!-- CARD 1 - Peluquería (GRANDE) -->
     <div class="project-card card-lg" data-cat="web" onclick="openModal('peluqueria')">
       <div class="card-overlay"></div>
       <div class="card-img">
@@ -792,7 +811,6 @@ footer {
       </div>
     </div>
 
-    <!-- CARD 2 - Portafolio personal (MEDIANO) -->
     <div class="project-card card-md" data-cat="personal" onclick="openModal('portafolio')">
       <div class="card-overlay"></div>
       <div class="card-img">
@@ -814,29 +832,86 @@ footer {
       </div>
     </div>
 
-    <!-- CARD 3 - App de Belleza (FULL WIDTH) -->
     <div class="project-card card-sm" data-cat="app" onclick="openModal('belleza')">
       <div class="card-overlay"></div>
       <div class="card-img">
         <img src="neos.png" alt="App Belleza">
       </div>
       <div class="card-body">
-        <div>
-          <div class="card-arrow">↗</div>
-          <div class="card-meta">
-            <span class="card-category cat-app">App Móvil</span>
-            <span class="card-year">2025</span>
-          </div>
-          <div class="card-title">App de Belleza</div>
-          <p class="card-desc">Aplicacion para venta de catalogo de una distribuidora grande de belleza, manejo de inventario, transacciones, stock y demas funciones.</p>
+        <div class="card-arrow">↗</div>
+        <div class="card-meta">
+          <span class="card-category cat-app">App Móvil</span>
+          <span class="card-year">2025</span>
         </div>
-        <div class="card-sm-right">
-          <div class="card-stack">
-            <span class="stack-tag">React Native</span>
-            <span class="stack-tag">Python</span>
-            <span class="stack-tag">Flask</span>
-            <span class="stack-tag">MySQL</span>
-          </div>
+        <div class="card-title">App de Belleza</div>
+        <p class="card-desc">App para catálogo, inventario y ventas de belleza con flujo simple para clientes y negocio.</p>
+        <div class="card-stack">
+          <span class="stack-tag">React Native</span>
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Flask</span>
+          <span class="stack-tag">MySQL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card card-lg" data-cat="web" onclick="openModal('cajas')">
+      <div class="card-overlay"></div>
+      <div class="card-img">
+        <img src="cajas.png" alt="Cajas Bogota">
+      </div>
+      <div class="card-body">
+        <div class="card-arrow">↗</div>
+        <div class="card-meta">
+          <span class="card-category cat-web">Sitio Web</span>
+          <span class="card-year">2026</span>
+        </div>
+        <div class="card-title">Cajas Bogota</div>
+        <p class="card-desc">Landing page para negocio local de cajas personalizadas, con precios, algunos productos e información de contacto.</p>
+        <div class="card-stack">
+          <span class="stack-tag">HTML/CSS</span>
+          <span class="stack-tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card card-sm" data-cat="web" onclick="openModal('casas')">
+      <div class="card-overlay"></div>
+      <div class="card-img">
+        <img src="casas.png" alt="Casas">
+      </div>
+      <div class="card-body">
+        <div class="card-arrow">↗</div>
+        <div class="card-meta">
+          <span class="card-category cat-app">Sitio Web</span>
+          <span class="card-year">2026</span>
+        </div>
+        <div class="card-title">Sitio Web para Inmobiliaria</div>
+        <p class="card-desc">Sitio web y landing page para una inmobiliaria con información de contacto, precios y detalles.</p>
+        <div class="card-stack">
+          <span class="stack-tag">Html</span>
+          <span class="stack-tag">Css</span>
+          <span class="stack-tag">Js</span>
+        </div>
+      </div>
+    </div>
+
+<div class="project-card card-sm" data-cat="web" onclick="openModal('pilates')">
+      <div class="card-overlay"></div>
+      <div class="card-img">
+        <img src="pilates.png" alt="Pilates">
+      </div>
+      <div class="card-body">
+        <div class="card-arrow">↗</div>
+        <div class="card-meta">
+          <span class="card-category cat-app">Sitio Web</span>
+          <span class="card-year">2026</span>
+        </div>
+        <div class="card-title">Sitio Web para Pilates</div>
+        <p class="card-desc">Sitio web y landing page para un negocio de pilates con información de contacto, precios y detalles.</p>
+        <div class="card-stack">
+          <span class="stack-tag">Html</span>
+          <span class="stack-tag">Css</span>
+          <span class="stack-tag">Js</span>
         </div>
       </div>
     </div>
@@ -904,6 +979,33 @@ const projects = {
     imgSrc: 'neos.png',
     imgClass: 'img-3', icon: '💄', label: 'BEAUTY APP',
     demo: 'https://neosapp-2.vercel.app', code: '#'
+  },
+  cajas: {
+    cat: 'Sitio Web ', catClass: 'cat-web',
+    title: 'Web para negocio',
+    desc: 'Landing page para negocio local de Cajas personalizadas, con precios, algunos productos e informacion de contacto.',
+    stack: ['Html', 'Css', 'Js'],
+    imgSrc: 'cajas.png',
+    imgClass: 'img-4', icon: '📦', label: 'Web Box',
+    demo: 'https://mikecito080.github.io/Cajas-Bogota/', code: '#' 
+  },
+  casas: {
+    cat: 'Sitio Web ', catClass: 'cat-web',
+    title: 'Web para inmobiliaria',
+    desc: 'Sitio web y Landing page para una inmobiliaria con toda la informacion de contacto precios y demas',
+    stack: ['Html', 'Css', 'Js'],
+    imgSrc: 'casas.png',
+    imgClass: 'img-5', icon: '🏘️', label: 'Web Box',
+    demo: 'https://mikecito080.github.io/InmobiliariaWeb/', code: '#' 
+  },
+  pilates: {
+    cat: 'Sitio Web ', catClass: 'cat-web',
+    title: 'Web para Pilates',
+    desc: 'Sitio web y Landing page para un negocio de pilates con toda la informacion de contacto precios y demas',
+    stack: ['Html', 'Css', 'Js'],
+    imgSrc: 'pilates.png',
+    imgClass: 'img-5', icon: '🤸‍♀️', label: 'Web Box',
+    demo: 'https://mikecito080.github.io/PilatesWeb/', code: '#' 
   }
 };
 
@@ -922,7 +1024,7 @@ function openModal(id) {
     <img src="${p.imgSrc}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block">`;
 
   document.getElementById('modalActions').innerHTML = `
-    <a href="${p.demo}" class="btn-modal btn-modal-primary">Ver demo →</a>`;
+    <a href="${p.demo}" class="btn-modal btn-modal-primary">Ver Sitio Web →</a>`;
 
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -943,9 +1045,11 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 function filterCards(cat, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+
   document.querySelectorAll('.project-card').forEach(card => {
     const show = cat === 'all' || card.dataset.cat === cat;
-    card.style.opacity = show ? '1' : '0.2';
+    card.style.display = show ? '' : 'none';
+    card.style.opacity = show ? '1' : '0';
     card.style.pointerEvents = show ? 'all' : 'none';
     card.style.transition = 'opacity 0.3s ease';
   });
